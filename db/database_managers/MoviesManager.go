@@ -10,11 +10,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-func GetAllMovies(filters []interface{}) models.Movies {
-
-	bsonInterface := []interface{}{
-		filters
-	}
+func GetAllMovies() models.Movies {
 
 	// movies := make([]customtypes.Movie, 0)
 	var movies models.Movies

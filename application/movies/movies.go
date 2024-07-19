@@ -9,9 +9,9 @@ import (
 	"strconv"
 
 	"github.com/vanshcodes/go-netflix-backend/db"
-	databasemanagers "github.com/vanshcodes/go-netflix-backend/db/database_managers"
 	"github.com/vanshcodes/go-netflix-backend/db/models"
 	muxhelpers "github.com/vanshcodes/go-netflix-backend/mux_helpers"
+	sqldatabasemanagers "github.com/vanshcodes/go-netflix-backend/sqldb/sql_database_managers"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -30,7 +30,7 @@ func MovieQueryFilter(w http.ResponseWriter, r *http.Request, q func(w http.Resp
 func GetAllMovies(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	slog.Info("HOST IS")
-	movies := databasemanagers.GetAllMovies()
+	movies := sqldatabasemanagers.GetAllMovies()
 	movies = CheckAndUseFilters(movies, r)
 	muxhelpers.JsonResponse(w, movies)
 }
@@ -48,8 +48,9 @@ func GetAllMovies(w http.ResponseWriter, r *http.Request) {
 func FilterMovieResultsByGenre(movieResult models.Movies, genreID int64) models.Movies {
 	var movies models.Movies
 	for _, movie := range movieResult {
-		println(movie.GenreIDS[len(movie.GenreIDS)-1])
-		if slices.Contains(movie.GenreIDS, genreID) {
+		genreIDS := movie.GenreIDS
+		println(genreIDS[len(genreIDS)-1])
+		if slices.Contains(genreIDS, genreID) {
 			// println(slices.Contains(movie.GenreIDS, genreID))
 
 			movies = append(movies, movie)

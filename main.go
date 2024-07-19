@@ -12,7 +12,7 @@ import (
 
 	"github.com/vanshcodes/go-netflix-backend/constants"
 	"github.com/vanshcodes/go-netflix-backend/customtypes"
-	"github.com/vanshcodes/go-netflix-backend/db"
+	"github.com/vanshcodes/go-netflix-backend/sqldb"
 )
 
 func SettingDatabase() {
@@ -25,7 +25,7 @@ func SettingDatabase() {
 	defer file.Close()
 	byteValue, _ := io.ReadAll(file)
 	json.Unmarshal(byteValue, &configuration)
-	db.StartConnection(configuration)
+	sqldb.StartConnection(configuration)
 }
 
 func main() {
